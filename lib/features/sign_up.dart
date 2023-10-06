@@ -5,6 +5,13 @@ import 'package:intl/intl.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
+  void _navigateToSignUpPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage())
+    );
+  }
+
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -14,6 +21,9 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('BMI Tracker'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -103,12 +113,20 @@ class SignUpPage extends StatelessWidget {
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: () {
-                // Get the values from the text form fields
-               //ONGOING
-              },
+              onPressed: () {},
               child: Text('Sign Up'),
             ),
+            SizedBox(height: 10),
+            GestureDetector(
+              onTap: () => _navigateToSignUpPage(context),
+              child: const Text(
+                "Already have an account? Log in",
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              )
+            )
           ],
         ),
       ),
