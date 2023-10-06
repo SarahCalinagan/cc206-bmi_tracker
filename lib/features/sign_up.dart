@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';//For formatting dates
+//import 'package:bmi_tracker/features/log_in.dart';
 
 class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key}) : super(key: key);
 
-  void _navigateToSignUpPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage())
-    );
-  }
-
-  final TextEditingController usernameController = TextEditingController();
+    void _navigateToSignUpPage(BuildContext context) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage())
+      );
+   }
+  //For getting input values
+  final TextEditingController usernameController = TextEditingController(); 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController dateinput = TextEditingController();
-  String? selectedGender; // To store the selected gender
+ final String? selectedGender;
+ 
+
+ SignUpPage({
+    Key? key,
+    this.selectedGender,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +29,7 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('BMI Tracker'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Column(
           children: [
             Text(
               'Sign Up',
@@ -69,17 +73,13 @@ class SignUpPage extends StatelessWidget {
                   Radio<String>(
                     value: 'Male',
                     groupValue: selectedGender,
-                    onChanged: (String? value) {
-                      selectedGender = value;
-                    },
+                    onChanged: null,
                   ),
                   Text('Male'),
                   Radio<String>(
                     value: 'Female',
                     groupValue: selectedGender,
-                    onChanged: (String? value) {
-                      selectedGender = value; //Still trying to figure out how to setstate in stateless widget.....
-                    },
+                    onChanged: null,
                   ),
                   Text('Female'),
                 ],
@@ -87,7 +87,7 @@ class SignUpPage extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(15), // Sets all sides 10 units
-              height: 10.0,
+              height: 150,
               child: Center(
                 child: TextField(
                   controller: dateinput,
@@ -117,17 +117,40 @@ class SignUpPage extends StatelessWidget {
               child: Text('Sign Up'),
             ),
             SizedBox(height: 10),
-            GestureDetector(
-              onTap: () => _navigateToSignUpPage(context),
-              child: const Text(
-                "Already have an account? Log in",
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                ),
-              )
-            )
+            Center(
+  child: GestureDetector(
+    onTap: () => _navigateToSignUpPage(context),
+    child: const Text(
+      "Already have an account? Log in",
+      style: TextStyle(
+        color: Colors.blue,
+        decoration: TextDecoration.underline,
+      ),
+    ),
+  ),
+)
           ],
+        ),
+    );
+  }
+}
+class SignUpPageParent extends StatefulWidget {
+  @override
+  _SignUpPageParentState createState() => _SignUpPageParentState();
+}
+
+class _SignUpPageParentState extends State<SignUpPageParent> {
+  String? selectedGender;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('BMI Tracker'),
+      ),
+      body: SingleChildScrollView(
+        child: SignUpPage(
+          selectedGender: selectedGender,
         ),
       ),
     );
