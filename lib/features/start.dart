@@ -4,7 +4,7 @@ import 'package:bmi_tracker/features/log_in.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: StartPage(), // StartPage
+      home: StartPage(),
     ),
   );
 }
@@ -26,30 +26,43 @@ class StartPage extends StatelessWidget {
         title: Text('BMI Tracker'),
       ),
       body: Container(
-        color: Colors.purple, // Purple background
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Body VitalityQuest', // Title
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white, // White text color
-              ),
+        decoration: BoxDecoration(
+          color:
+              Color(0xFFE6E6FA), // Lavender background using the hex color code
+        ),
+        child: Center(
+          child: Container(
+            height: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 100.0),
+                Text(
+                  'Body VitalityQuest',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: SizedBox(),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _navigateToLoginPage(context);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.orange),
+                  ),
+                  child: Text('Get Started',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ],
             ),
-            SizedBox(height: 100.0),
-            ElevatedButton(
-              onPressed: () {
-                _navigateToLoginPage(context);
-              },
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.orange), // Orange button
-              ),
-              child: Text('Get Started', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+          ),
         ),
       ),
     );
