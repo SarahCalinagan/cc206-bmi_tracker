@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cc206_bmi_bmi_tracker/features/sign_up.dart';
+import 'package:cc206_bmi_tracker/features/sign_up.dart';
 import 'package:cc206_bmi_tracker/features/log_in.dart';
 
 void main() {
