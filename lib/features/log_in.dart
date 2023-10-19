@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:bmi_tracker/features/sign_up.dart';
+import 'package:cc206_bmi_bmi_tracker/features/sign_up.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
