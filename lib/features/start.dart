@@ -21,24 +21,21 @@ class StartPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SizedBox(
-                  height:
-                      75.0), // Move the text to the upper part (75% of the screen height)
+              SizedBox(height: 75.0),
               Text(
                 'Body\nVitalityQuest', // Use line break to position the text
                 style: TextStyle(
-                  fontSize: 30, // Reduce the text size
-                  fontWeight: FontWeight
-                      .w900, // Use a high fontWeight for a chubby appearance
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900, // high fontWeight
                   color: Colors.white,
                   shadows: [
                     Shadow(
-                      blurRadius: 10.0, // Increase the glow effect
+                      blurRadius: 10.0,
                       color: Colors.white,
                     ),
                   ],
                 ),
-                textAlign: TextAlign.center, // Center the text horizontally
+                textAlign: TextAlign.center,
               ),
               ElevatedButton(
                 onPressed: () {
@@ -54,14 +51,11 @@ class StartPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: Color(
                       0xFFFFA500), // Orange color in hexadecimal (#FFA500)
-                  minimumSize: Size(160, 60.0), // Adjust button width
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 20.0), // Add horizontal margin
+                  minimumSize: Size(160, 60.0),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                 ),
               ),
-              SizedBox(
-                  height:
-                      25.0), // Move the button to the lower part (25% of the screen height)
+              SizedBox(height: 25.0),
             ],
           ),
         ),
