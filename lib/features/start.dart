@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bmi_tracker/features/log_in.dart';
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: StartPage(),
-    ),
-  );
-}
+import 'package:cc206_bmi_tracker/features/log_in.dart';
 
 class StartPage extends StatelessWidget {
-  StartPage({Key? key}) : super(key: key);
+  const StartPage({Key? key});
 
   void _navigateToLoginPage(BuildContext context) {
     Navigator.push(
@@ -21,50 +13,67 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('BMI Tracker'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color:
-              Color(0xFFE6E6FA), // Lavender background using the hex color code
-        ),
-        child: Center(
-          child: Container(
-            height: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 100.0),
-                Text(
-                  'Body VitalityQuest',
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor:
+            Color.fromARGB(255, 192, 21, 192), // Set background color
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                  height:
+                      75.0), // Move the text to the upper part (75% of the screen height)
+              Text(
+                'Body\nVitalityQuest', // Use line break to position the text
+                style: TextStyle(
+                  fontSize: 30, // Reduce the text size
+                  fontWeight: FontWeight
+                      .w900, // Use a high fontWeight for a chubby appearance
+                  color: Colors.white,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10.0, // Increase the glow effect
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center, // Center the text horizontally
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _navigateToLoginPage(context);
+                },
+                child: Text(
+                  'Get Started',
                   style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    fontSize: 18,
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: SizedBox(),
-                  ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(
+                      0xFFFFA500), // Orange color in hexadecimal (#FFA500)
+                  minimumSize: Size(160, 60.0), // Adjust button width
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 20.0), // Add horizontal margin
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    _navigateToLoginPage(context);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.orange),
-                  ),
-                  child: Text('Get Started',
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                  height:
+                      25.0), // Move the button to the lower part (25% of the screen height)
+            ],
           ),
         ),
       ),
     );
   }
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: StartPage(),
+    ),
+  );
 }

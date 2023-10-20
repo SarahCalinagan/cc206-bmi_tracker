@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bmi_tracker/features/sign_up.dart';
-import 'package:bmi_tracker/features/log_in.dart';
+import 'package:cc206_bmi_tracker/features/log_in.dart';
+import 'package:cc206_bmi_tracker/features/start.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(), // Set SignUpPage as the home screen
+      home: StartPage(), // Set StartPage as the home screen
     );
   }
 }
