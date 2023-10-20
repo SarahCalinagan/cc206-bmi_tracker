@@ -16,26 +16,42 @@ class StartPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor:
-            Color.fromARGB(255, 192, 21, 192), // Set background color
+            Color(0xFF5F74D1), // Set the background color to #5F74D1
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(height: 75.0),
-              Text(
-                'Body\nVitalityQuest', // Use line break to position the text
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w900, // high fontWeight
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 10.0,
-                      color: Colors.white,
+              Stack(
+                // Use a Stack to overlay the glowing text on top of the main text
+                alignment: Alignment.center,
+                children: [
+                  Text(
+                    'Body\nVitalityQuest',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white.withOpacity(0.9),
                     ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
+                  ),
+                  // Add a glowing outline around the text
+                  Text(
+                    'Body\nVitalityQuest',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.transparent,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               ElevatedButton(
                 onPressed: () {
@@ -49,8 +65,7 @@ class StartPage extends StatelessWidget {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(
-                      0xFFFFA500), // Orange color in hexadecimal (#FFA500)
+                  primary: Color(0xFFFFA226), // Set the button color to #FFA226
                   minimumSize: Size(160, 60.0),
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                 ),
