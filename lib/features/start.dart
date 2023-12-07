@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cc206_bmi_tracker/features/log_in.dart';
 
 class StartPage extends StatelessWidget {
-  const StartPage({Key? key});
-
   void _navigateToLoginPage(BuildContext context) {
     Navigator.push(
       context,
@@ -13,76 +11,81 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor:
-            Color(0xFF5F74D1), // Set the background color to #5F74D1
-        body: Center(
+    return Scaffold(
+      body: Container(
+        // Set background color
+        color:
+            Color.fromARGB(255, 16, 15, 94), // Replace with your desired color
+
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(height: 75.0),
-              Stack(
-                // Use a Stack to overlay the glowing text on top of the main text
-                alignment: Alignment.center,
-                children: [
-                  Text(
-                    'Body\nVitalityQuest',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  // Add a glowing outline around the text
-                  Text(
-                    'Body\nVitalityQuest',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.transparent,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 10.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // Large Image
+              Image.asset(
+                'assets/start.png', // Replace with the actual image path
+                height: 300, // Set the desired height
+                width: 300, // Set the desired width
               ),
+
+              // SizedBox for spacing
+              SizedBox(height: 20),
+
+              // Title
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Body VitalityQuest',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Text color
+                  ),
+                ),
+              ),
+
+              // SizedBox for spacing
+
+              // Text Description
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 55.0),
+                child: Text(
+                  'Your Body Mass Index Wellness Tracking Adventure Navigating Your Health Journey',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16, color: Colors.white), // Text color
+                ),
+              ),
+
+              // SizedBox for spacing
+              SizedBox(height: 50),
+
+              // Get Started Button
               ElevatedButton(
                 onPressed: () {
                   _navigateToLoginPage(context);
                 },
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                child: Container(
+                  width: 130,
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  child: Text(
+                    'GET STARTED',
+                    style: TextStyle(fontSize: 17, color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFFFFA226), // Set the button color to #FFA226
-                  minimumSize: Size(160, 60.0),
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  primary: Color.fromARGB(255, 222, 96, 0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        8.0), // Adjust the radius as needed
+                  ),
                 ),
               ),
-              SizedBox(height: 25.0),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: StartPage(),
-    ),
-  );
 }
