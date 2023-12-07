@@ -1,37 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cc206_bmi_tracker/features/log_in.dart';
-<<<<<<< HEAD
-
-class SignUpPage extends StatelessWidget {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const SignUpPage({Key? key}) : super(key: key);
-=======
-=======
-  const SignUpPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(95, 116, 209, 1),
-      appBar: AppBar(
-          backgroundColor: Colors.transparent, // Set background to transparent
-          elevation: 0,
-      ),
-      body: SignUpForm(),
-    );
-  }
-}
->>>>>>> 2e552fe883875ed537bc5ed68301f0fb1905d2f6
-
-class SignUpForm extends StatefulWidget {
-  @override
-  _SignUpFormState createState() => _SignUpFormState();
-}
-
-class _SignUpFormState extends State<SignUpForm> {
-  void _navigateToSignUpPage(BuildContext context) {
-=======
 import 'package:cc206_bmi_tracker/features/calculator.dart';
 import 'package:cc206_bmi_tracker/database_helper.dart';
 
@@ -42,136 +11,11 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   void _navigateToLoginPage(BuildContext context) {
->>>>>>> sign_up-APINAN-LAMSIN-MANUEL
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
-<<<<<<< HEAD
-  final TextEditingController usernameController = TextEditingController(); 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController dateinput = TextEditingController();
-<<<<<<< HEAD
- final String? selectedGender;
- 
-
- SignUpPage({
-    Key? key,
-    this.selectedGender,
-  }) : super(key: key);
->>>>>>> cfde13d1121333bc68fe72bb0370f93ec3461730
-
-  // Defining the method to navigate to the login page
-  void _navigateToLoginPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
- 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('BMI Tracker'),
-      ),
-      body: Column(
-          children: [
-            Text(
-              'Sign Up',
-              style: TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
-              ),
-=======
-  final List<String> genderOptions = ['Male', 'Female',];
-  String selectedGender = 'Male';
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-         const Text(
-          'Body VitalityQuest',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-                    Container(
-                      width: 175,
-                      padding: const EdgeInsets.fromLTRB(65, 100, 15, 10),
-                      child: GestureDetector(
-                       onTap: () => _navigateToSignUpPage(context),
-                        child: const Text(
-                       "Log in", textAlign: TextAlign.start,
-                       style: TextStyle(
-                        color: Colors.white,
-                         fontSize: 16,
-                       
-                      ),
-                      ),
-                    ),
-                      
-                    ), //Container
-                    const SizedBox(
-                      width: 20,
-                    ), //SizedBox
-                    Container(
-                        width: 175,
-                        padding: const EdgeInsets.fromLTRB(15, 100, 10, 10),
-                        child: const Text(
-                        'Sign Up',
-                      style: TextStyle(
-                       fontSize: 16,
-                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                         ),
-                        ),
-                   ) //Container
-                  ],
-        ),
-          SizedBox(height: 20.0),
-          TextFormField(
-            controller: usernameController,
-            decoration: InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
->>>>>>> 2e552fe883875ed537bc5ed68301f0fb1905d2f6
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: passwordController,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
-            ),
-            obscureText: true,
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-            height: 110,
-            child: Center(
-              child: TextField(
-                controller: dateinput,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.calendar_today),
-                  labelText: "MM/DD/YY",
-=======
 
   void _showSuccessDialog(BuildContext context) {
     showDialog(
@@ -500,63 +344,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ],
->>>>>>> sign_up-APINAN-LAMSIN-MANUEL
                 ),
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2101),
-                  );
-                  if (pickedDate != null) {
-                    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                    dateinput.text = formattedDate;
-                  }
-                },
               ),
             ),
-<<<<<<< HEAD
-          ),
-           Center(
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(10),
-            dense: true,
-            subtitle: DropdownButton<String>(
-              value: selectedGender,
-              icon: const Icon(Icons.arrow_drop_down),
-              isExpanded: true,
-              iconSize: 30.2,
-              iconEnabledColor: Color.fromRGBO(2, 0, 88, 1),
-              items: genderOptions.map((String gender) {
-                return DropdownMenuItem<String>(
-                  value: gender,
-                  child: Text(gender),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedGender = value!;
-                });
-              },
-            ),
-          ),
-        ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-            primary: const Color.fromRGBO(255, 162, 38, 1) , // Background color
-            ),
-            child: Text('Sign Up', style: TextStyle(fontSize: 20)),
-          ),
-        ]
-=======
           ],
         ),
       ),
->>>>>>> sign_up-APINAN-LAMSIN-MANUEL
     );
   }
 }
