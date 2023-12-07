@@ -267,16 +267,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-<<<<<<< HEAD
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: LoginPage(),
-    ),
-  );
-}
-
-//ayyy
-=======
->>>>>>> log_in_calinagan_jagunap
