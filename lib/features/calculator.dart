@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cc206_bmi_tracker/components/home_drawer.dart';
-
-class CalculatorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'VitalityQuest',
-      home: MyHomePage(),
-    );
-  }
-}
+import 'package:cc206_bmi_tracker/database_helper.dart';
 
 class MyHomePage extends StatefulWidget {
+  final int userId;
+
+  MyHomePage({required this.userId});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -28,7 +23,49 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
 
-  void calculateBMI() {
+  void calculateBMI() async {
+    // Retrieve the latest BMI record date from the database
+    List<Map<String, dynamic>> latestRecord =
+        await DatabaseHelper.instance.getBMIResults(widget.userId);
+
+    if (latestRecord.isNotEmpty) {
+      // Get the latest date from the records
+      DateTime latestDate =
+          DateTime.parse(latestRecord.last[DatabaseHelper.bmiColumnDate]);
+
+      // Calculate the difference between the latest date and the current date
+      Duration difference = DateTime.now().difference(latestDate);
+
+      print('Latest Date: $latestDate');
+      print('Current Date: ${DateTime.now()}');
+      print('Difference in Days: ${difference.inDays}');
+
+      // Check if the difference is less than 21 days
+      if (difference.inDays < 21) {
+        // Display an error message and return without calculating BMI
+        print('User is not allowed to enter a new BMI record yet.');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(
+                'You can only enter a new BMI record after 21 days from you last date.',
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+    }
     setState(() {
       height = double.parse(heightController.text);
       weight = double.parse(weightController.text);
@@ -57,94 +94,134 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         classification = 'Obese';
       }
+      String currentDate = DateTime.now().toIso8601String();
+
+      // Insert BMI result into the database
+      Map<String, dynamic> bmiData = {
+        DatabaseHelper.bmiColumnUserId:
+            widget.userId, // You need to get the userId from somewhere
+        DatabaseHelper.bmiColumnHeight: height,
+        DatabaseHelper.bmiColumnWeight: weight,
+        DatabaseHelper.bmiColumnBmiResult: bmiResult,
+        DatabaseHelper.bmiColumnClassification: classification,
+        DatabaseHelper.bmiColumnDate: currentDate,
+      };
+
+      // Insert BMI result into the database
+      DatabaseHelper.instance.insertBMIResult(bmiData);
     });
+
+    // Insert BMI result into the database
   }
 
   Map<String, String> notes = {
-    'Underweight': 'Recommendation for underweight...',
-    'Normal weight': 'Recommendation for normal weight...',
-    'Overweight': 'Recommendation for overweight...',
-    'Obese': 'Recommendation for obesity...',
+    'Underweight':
+        'Your BMI suggests you might need to focus on nourishing your body with nutrient-rich foods to reach a healthier weight. Consider consulting a healthcare provider to address any underlying factors contributing to your low BMI.',
+    'Normal weight':
+        'Maintaining a healthy weight is a positive sign, but dont forget the benefits of regular exercise and a balanced diet. Keep up the good work! A healthy weight contributes to overall well-being.',
+    'Overweight':
+        'Its never too late to start making healthier choices. Small changes can lead to gradual weight loss and improved health.Aim for a sustainable approach to weight management through portion control and increased physical activity.',
+    'Obese':
+        'Taking steps to lose excess weight can lead to reduced health risks and increased energy levels.Commit to positive changes in your daily routine to support your weight loss journey.',
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('VitalityQuest'),
-        backgroundColor: Color.fromARGB(255, 35, 33, 148),
+        title: Text(
+          'VitalityQuest',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color.fromARGB(255, 16, 15, 94),
         elevation: 0,
+        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
-      endDrawer: HomeDrawer(),
+      endDrawer: HomeDrawer(userId: widget.userId),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 35, 33, 148), // RGB values for dark blue
+          color: Color.fromARGB(255, 16, 15, 94), // RGB values for dark blue
         ),
         child: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'BMI Calculator',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'BMI CALCULATOR',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-                SizedBox(height: 30),
-                buildInputContainer(
-                  'Height',
-                  heightController,
-                  'Enter your height',
-                  ['cm', 'inch', 'foot', 'meter'], // Added 'meter' as an option
-                ),
-                SizedBox(height: 20),
-                buildInputContainer(
-                  'Weight',
-                  weightController,
-                  'Enter your weight',
-                  ['kg', 'pound'],
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      height = double.parse(heightController.text);
-                      weight = double.parse(weightController.text);
-                    });
-                    calculateBMI();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: Text(
-                      'Calculate',
-                      style: TextStyle(
-                        fontSize: 15,
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: ListView(
+                  children: [
+                    buildInputContainer(
+                      'Height',
+                      heightController,
+                      'Enter your height',
+                      [
+                        'cm',
+                        'inch',
+                        'foot',
+                        'meter'
+                      ], // Added 'meter' as an option
+                    ),
+                    SizedBox(height: 10),
+                    buildInputContainer(
+                      'Weight',
+                      weightController,
+                      'Enter your weight',
+                      ['kg', 'pound'],
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          height = double.parse(heightController.text);
+                          weight = double.parse(weightController.text);
+                        });
+                        calculateBMI();
+                      },
+                      child: Container(
+                        width: 255,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Text(
+                          'CALCULATE',
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 222, 96, 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust the radius as needed
+                        ),
                       ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orange,
-                  ),
+                    SizedBox(height: 20),
+                    buildResultContainer(
+                      'BMI Results',
+                      'BMI: ${bmiResult.toStringAsFixed(2)}\nClassification: $classification',
+                      textColor: Colors.white,
+                    ),
+                    SizedBox(height: 10),
+                    buildResultContainer(
+                      'Notes',
+                      notes[classification] ?? '',
+                      textColor: Colors.white,
+                    ),
+                  ],
                 ),
-                SizedBox(height: 30),
-                buildResultContainer(
-                  'BMI Results',
-                  'BMI: ${bmiResult.toStringAsFixed(2)}\nClassification: $classification',
-                  textColor: Colors.white,
-                ),
-                SizedBox(height: 20),
-                buildResultContainer(
-                  'Notes',
-                  notes[classification] ?? '',
-                  textColor: Colors.white,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -156,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 57, 55, 158),
+        color: Color.fromARGB(255, 37, 35, 122),
         borderRadius: BorderRadius.circular(4.0),
       ),
       padding: EdgeInsets.all(16),
@@ -171,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
           Row(
             children: [
               Expanded(
@@ -181,14 +258,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                     hintText: hint,
                     hintStyle: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.white,
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                   ),
@@ -225,6 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         value,
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.orange,
                         ),
                       ),
@@ -243,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 57, 55, 158),
+        color: Color.fromARGB(255, 37, 35, 122),
         borderRadius: BorderRadius.circular(4.0),
       ),
       padding: EdgeInsets.all(16),
@@ -262,6 +340,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Text(
             result,
             style: TextStyle(
+              fontSize: 16,
               color: textColor,
             ),
           ),
